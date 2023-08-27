@@ -1,20 +1,10 @@
-# ベースイメージの選択
-FROM python:3.9-slim
+FROM php:8.0-fpm-alpine
 
-# 作業ディレクトリの設定
-WORKDIR /app
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# 環境変数の設定
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+RUN set -ex \
+    	&& apk --no-cache add postgresql-dev nodejs yarn npm\
+    	&& docker-php-ext-install pdo pdo_pgsql
 
-# 必要なパッケージのインストール
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc default-libmysqlclient-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /var/www/html
 
-# pipのアップグレードと必要なPythonパッケージのインストール
-RUN pip install --upgrade pip
-COPY ./requirements.txt /app/
-RUN pip install -r requirements.txt
