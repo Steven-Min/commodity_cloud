@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class Category extends Model
+class SmallCategory extends Model
 {
     /**
      * @var array<int, string>
@@ -14,19 +15,15 @@ class Category extends Model
         'slug',
         'description',
         'image',
-        'sort'
+        'sub_category_id',
+        'sort',
     ];
 
-    protected $table = 'categories';
+    protected $table = 'small_categories';
 
     protected $appends = ['image_url'];
     public function getImageUrlAttribute()
     {
         return Storage::url($this->image);
-    }
-
-    public function subCategories()
-    {
-        return $this->hasMany(SubCategory::class)->with('smallCategories');
     }
 }

@@ -4,12 +4,14 @@ body {
 /* General */
 $fontSize:14px;
 $borderRadius:12px;
-$transitionDuration:.2s;
+$transitionDuration:.3s;
+$transitionTimingFunction:cubic-bezier(0.4, 0, 0.2, 1);
 
 :root {
     --white-color: #fff;
     --border-color: #dadada;
     --text-color: #000;
+    --special-color: #1d9388;
 }
 
 $header_height: 100px;

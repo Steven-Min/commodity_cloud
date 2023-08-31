@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,5 +24,10 @@ class SubCategory extends Model
     public function getImageUrlAttribute()
     {
         return Storage::url($this->image);
+    }
+
+    public function smallCategories()
+    {
+        return $this->hasMany(SmallCategory::class);
     }
 }

@@ -30,7 +30,7 @@
         padding: 0 15px;
         position: relative;
 
-        a {
+        &>a {
             //可愛いフォントを使う
             font-family: 'Comic Sans MS', cursive, sans-serif;
             color: var(--text-color);
@@ -45,19 +45,71 @@
 
         .category-popover {
             position: fixed;
-            top: $header_height;
             z-index: 199;
-            top: -100%;
+            top: -150%;
             left: 0;
             width: 100%;
             height: 0;
             background-color: var(--white-color);
-            padding: 50px 0;
+            padding: 30px 0;
+            overflow: auto;
+
+            .close-popover {
+                position: absolute;
+                right: 50px;
+                top: 50px;
+                cursor: pointer;
+
+                i {
+                    font-size: 30px;
+                }
+            }
 
             &.show {
                 height: calc(100vh - $header_height);
                 top: calc($header_height + 1px);
-                transition: $transitionDuration;
+                transition: all $transitionDuration $transitionTimingFunction;
+            }
+
+            .sub-category-item {
+                list-style: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 20px;
+
+                a {
+                    color: var(--text-color);
+                    cursor: pointer;
+                    padding-bottom: 4px;
+                }
+
+                .sub-category-heading {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    text-align: center;
+                    margin-bottom: 15px;
+                }
+
+                .small-category-group {
+                    display: flex;
+                    justify-content: center;
+                    flex-wrap: wrap;
+
+                    .small-category-item {
+                        margin-bottom: 10px;
+
+                        a {
+                            padding: 4px 10px;
+                            margin-right: 5px;
+                            border: 1px solid var(--white-color);
+                            border-radius: 4px;
+
+                            &:hover {
+                                transition: all $transitionDuration;
+                                border: 1px solid var(--special-color);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

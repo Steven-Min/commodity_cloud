@@ -4,16 +4,18 @@
     </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
 import Header from "../components/Header.vue";
-@Options({
+import Master from "../services/Master";
+export default {
     components: {
         Header,
     },
-})
-export default class MainLayout extends Vue {
-    created() {}
-
-    mounted() {}
-}
+    data() {
+        return {};
+    },
+    async created() {
+        const data = await Master.getCategories();
+        this.$store.commit("master/setCategories", data.categories);
+    },
+};
 </script>
