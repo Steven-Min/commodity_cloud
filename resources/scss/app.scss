@@ -3,11 +3,12 @@
 @import "primeicons/primeicons.css";
 
 @import 'primeflex/primeflex.scss';
-
+@import 'element-plus/dist/index.css';
 @import './src/variables';
 @import './src/mixins';
 
 @import './src/main';
+@import './src/header';
 @import './src/layout';
 @import './src/topbar';
 @import './src/reservations';

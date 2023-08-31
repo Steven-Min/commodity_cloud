@@ -13,17 +13,24 @@ html {
 body {
     font-family: var(--font-family);
     color: var(--text-color);
-    background-color: var(--surface-ground);
+    background-color: var(--white-color);
     margin: 0;
     padding: 0;
     min-height: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-   
+
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
 }
 
 a {
     text-decoration: none;
     color: var(--primary-color);
 }
- 

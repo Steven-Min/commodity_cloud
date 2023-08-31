@@ -1,0 +1,64 @@
+.logo {
+    a {
+        display: flex;
+        height: 100px;
+
+        img {
+            height: 100%;
+        }
+    }
+}
+.header {
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 200;
+}
+.container {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.category-button-group {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+
+    .category-button {
+        padding: 0 15px;
+        position: relative;
+
+        a {
+            //可愛いフォントを使う
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: var(--text-color);
+            font-weight: bold;
+            padding: 4px 10px;
+            cursor: pointer;
+
+            &:hover {
+                border-bottom: 1px solid var(--text-color);
+            }
+        }
+
+        .category-popover {
+            position: fixed;
+            top: $header_height;
+            z-index: 199;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: var(--white-color);
+            padding: 50px 0;
+
+            &.show {
+                height: calc(100vh - $header_height);
+                top: calc($header_height + 1px);
+                transition: $transitionDuration;
+            }
+        }
+    }
+}

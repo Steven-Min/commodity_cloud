@@ -5,3 +5,11 @@ body {
 $fontSize:14px;
 $borderRadius:12px;
 $transitionDuration:.2s;
+
+:root {
+    --white-color: #fff;
+    --border-color: #dadada;
+    --text-color: #000;
+}
+
+$header_height: 100px;
