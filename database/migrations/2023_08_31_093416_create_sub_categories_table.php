@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable()->comment('カテゴリー名');
+            $table->string('name')->nullable()->comment('サブカテゴリー名');
             $table->string('slug')->nullable()->comment('スラッグ');
             $table->longText('description')->nullable()->comment('説明');
             $table->string('image')->nullable()->comment('画像');
+            $table->unsignedBigInteger('category_id')->nullable()->comment('カテゴリーID');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->integer('sort')->nullable()->comment('並び順');
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('sub_categories');
     }
 };
