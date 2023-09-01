@@ -1,0 +1,9 @@
+.to-register-link {
+    color: var(--text-color) !important;
+    text-align: center;
+    padding-top: 20px;
+    a {
+        color: var(--link-color) !important;
+        text-decoration: underline;
+    }
+}

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-const Login = () => import("../pages/Login.vue");
+const Login = () => import("../pages/auth/Login.vue");
+const Register = () => import("../pages/auth/Register.vue");
 
 // Pages
 const Home = () => import("../pages/Home.vue");
@@ -29,6 +30,13 @@ const routes = [
         path: "/login",
         name: "login",
         component: Login,
+        beforeEnter: [notAuthenticated],
+    },
+    {
+        path: "/register",
+        name: "register",
+        component: Register,
+        beforeEnter: [notAuthenticated],
     },
     { path: "/admin", component: Admin, beforeEnter: [isAuthenticated] },
     {

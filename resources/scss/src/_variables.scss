@@ -13,10 +13,39 @@ $header_height: 100px;
     --border-color: #dadada;
     --text-color: #000;
     --special-color: #1d9388;
+    --link-color: #1a45ad;
+    --accent-color: #e32960;
+}
+
+.container {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-md {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-sm {
+    width: 720px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 div[role=button] {
     cursor: pointer;
+}
+
+.divider {
+    width: 100%;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.text-decoration {
+    text-decoration: underline;
 }
 
 // font-family

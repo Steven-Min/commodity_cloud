@@ -41,16 +41,24 @@
 
                 <Button label="ログイン" @click="login" class="w-full"></Button>
             </div>
+            <div>
+                <div class="to-register-link">
+                    アカウントを持っていない方は<router-link
+                        :to="{ name: 'register' }"
+                        >こちら</router-link
+                    >
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import UserAuth from "../services/UserAuth";
+import UserAuth from "../../services/UserAuth";
 import { markRaw } from "vue";
-import ResponseData from "../types/ResponseData";
-import LoginLayout from "../layouts/LoginLayout.vue";
+import ResponseData from "../../types/ResponseData";
+import AuthLayout from "../../layouts/AuthLayout.vue";
 
 class Props {
     settings = {
@@ -70,7 +78,7 @@ export default class Login extends Vue.with(Props) {
     };
 
     created() {
-        this.$emit("update:activeLayout", markRaw(LoginLayout));
+        this.$emit("update:activeLayout", markRaw(AuthLayout));
     }
 
     login() {
