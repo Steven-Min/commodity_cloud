@@ -5,15 +5,19 @@
                 <img
                     src="/images/icons/logo.png"
                     alt="Image"
-                    height="200"
+                    height="100"
                     class="mb-0"
                 />
-                <div class="text-900 text-3xl font-medium mb-3 font-bold">
-                    ログイン
+                <div
+                    class="text-900 text-3xl font-medium mb-3 font-bold comic-text"
+                >
+                    SIGN IN
                 </div>
             </div>
             <div>
-                <label for="email1" class="block text-900 font-medium mb-2"
+                <label
+                    for="email1"
+                    class="block text-900 font-medium mb-2 font-bold"
                     >メールアドレス</label
                 >
                 <InputText
@@ -23,7 +27,9 @@
                     class="w-full mb-3"
                 />
 
-                <label for="password1" class="block text-900 font-medium mb-2"
+                <label
+                    for="password1"
+                    class="block text-900 font-medium mb-2 font-bold"
                     >パスワード</label
                 >
                 <InputText
