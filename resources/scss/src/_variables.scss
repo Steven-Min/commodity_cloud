@@ -14,3 +14,7 @@ $header_height: 100px;
     --text-color: #000;
     --special-color: #1d9388;
 }
+
+div[role=button] {
+    cursor: pointer;
+}

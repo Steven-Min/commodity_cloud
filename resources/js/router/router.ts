@@ -25,7 +25,11 @@ import store from "../store/store";
 
 const routes = [
     { path: "/", component: Home, name: "home" },
-    { path: "/login", component: Login, beforeEnter: [notAuthenticated] },
+    {
+        path: "/login",
+        name: "login",
+        component: Login,
+    },
     { path: "/admin", component: Admin, beforeEnter: [isAuthenticated] },
     {
         path: "/reservations",

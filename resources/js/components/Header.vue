@@ -27,6 +27,9 @@
                             <i class="las la-times"></i>
                         </div>
                         <div class="container">
+                            <div class="category-icon">
+                                <i :class="category.image" />
+                            </div>
                             <ul
                                 class="sub-category-item"
                                 v-for="(
@@ -53,6 +56,52 @@
                     </div>
                 </div>
             </div>
+            <div class="other-button-group">
+                <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="詳細検索ができます！"
+                    placement="top"
+                >
+                    <div class="button-item search" role="button">
+                        <i class="las la-search"></i>
+                    </div>
+                </el-tooltip>
+                <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="ログインしましょう！"
+                    placement="top"
+                >
+                    <div
+                        @click="toLogin"
+                        class="button-item login"
+                        role="button"
+                    >
+                        <i class="las la-user"></i>
+                    </div>
+                </el-tooltip>
+                <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="お気に入りへ！"
+                    placement="top"
+                >
+                    <div class="button-item favorite" role="button">
+                        <i class="lar la-heart"></i>
+                    </div>
+                </el-tooltip>
+                <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="カートへ！"
+                    placement="top"
+                >
+                    <div class="button-item cart" role="button">
+                        <i class="lab la-opencart"></i>
+                    </div>
+                </el-tooltip>
+            </div>
         </div>
     </div>
 </template>
@@ -71,6 +120,10 @@ export default {
         },
         closePopOver() {
             this.showPopOverIndex = null;
+        },
+
+        toLogin() {
+            this.$router.push({ path: "/login" });
         },
     },
     computed: {

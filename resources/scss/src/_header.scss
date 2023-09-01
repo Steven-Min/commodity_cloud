@@ -54,6 +54,10 @@
             padding: 30px 0;
             overflow: auto;
 
+            ul {
+                padding-left: 0;
+            }
+
             .close-popover {
                 position: absolute;
                 right: 50px;
@@ -71,22 +75,35 @@
                 transition: all $transitionDuration $transitionTimingFunction;
             }
 
+            .category-icon {
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+                i {
+                    font-size: 40px;
+                }
+            }
+
             .sub-category-item {
                 list-style: none;
                 border-bottom: 1px solid var(--border-color);
                 padding-bottom: 20px;
-
-                a {
-                    color: var(--text-color);
-                    cursor: pointer;
-                    padding-bottom: 4px;
-                }
 
                 .sub-category-heading {
                     font-size: 1.2rem;
                     font-weight: bold;
                     text-align: center;
                     margin-bottom: 15px;
+
+                    a {
+                        color: var(--text-color);
+                        cursor: pointer;
+                        padding-bottom: 4px;
+
+                        &:hover {
+                            border-bottom: 1px solid var(--text-color);
+                        }
+                    }
                 }
 
                 .small-category-group {
@@ -99,18 +116,35 @@
 
                         a {
                             padding: 4px 10px;
+                            color: var(--text-color);
+                            cursor: pointer;
                             margin-right: 5px;
                             border: 1px solid var(--white-color);
-                            border-radius: 4px;
+                            border-radius: 8px;
 
                             &:hover {
                                 transition: all $transitionDuration;
-                                border: 1px solid var(--special-color);
+                                background-color: var(--special-color);
+                                color: var(--white-color);
                             }
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+.other-button-group {
+    margin-left: auto;
+    align-items: center;
+    display: flex;
+
+    .button-item {
+        padding: 10px;
+        margin-right: 20px;
+        i {
+            font-size: 26px;
         }
     }
 }

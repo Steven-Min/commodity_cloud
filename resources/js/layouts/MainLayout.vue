@@ -1,6 +1,7 @@
 <template>
-    <div>
+    <div class="main-layout">
         <Header />
+        <slot />
     </div>
 </template>
 <script lang="ts">
