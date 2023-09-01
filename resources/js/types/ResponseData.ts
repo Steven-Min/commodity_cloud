@@ -1,3 +1,4 @@
 export default interface ResponseData {
-	data: any;
+    data: any;
+    status: number;
 }
