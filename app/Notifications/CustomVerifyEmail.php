@@ -41,9 +41,17 @@ class CustomVerifyEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('【商品雲】新規登録ーメールアドレスの認証')
+                    ->greeting('こんにちは、' . $notifiable->email . '様!')
+                    ->line('お客様のメールアドレスで【４世代】ショッピングモール【商品雲】に新規登録がされました。')
+                    ->line('以下のリンクをクリックして、メールアドレスの認証を完了してください。')
+                    ->action('メールアドレスを認証', url('/'))
+                    ->line('もしこのメールに心当たりがない場合、他の方がメールアドレスを誤って入力した可能性がございます。')
+                    ->line('その場合、このメールを無視していただいて問題ございません。')
+                    ->line('ご不明点、ご質問等がある場合は、お気軽に以下の連絡先までお問い合わせください。')
+                    ->line('08-0123-4567')
+                    ->line('ありがとうございます。')
+                    ->line('【４世代】ショッピングモール【商品雲】サポートチーム');
     }
 
     /**
