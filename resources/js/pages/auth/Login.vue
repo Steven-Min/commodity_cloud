@@ -60,80 +60,69 @@ import { markRaw } from "vue";
 import ResponseData from "../../types/ResponseData";
 import AuthLayout from "../../layouts/AuthLayout.vue";
 
-class Props {
-    settings = {
-        logo: "",
-    };
-}
-
-@Options({
-    components: {},
-})
-export default class Login extends Vue.with(Props) {
-    // store = useStore()
-    checked = false;
-    user = {
-        email: "",
-        password: "",
-    };
-
+export default {
+    data() {
+        return {
+            checked: false,
+            user: {
+                email: "",
+                password: "",
+            },
+        };
+    },
     created() {
         this.$emit("update:activeLayout", markRaw(AuthLayout));
-    }
+    },
+    methods: {
+        login() {
+            UserAuth.login(this.user)
+                .then((response: ResponseData) => {
+                    if (response.data.success) {
+                        this.$toast.add({
+                            severity: "success",
+                            summary: "Login Successful!",
+                            detail: "Welcome to the dashboard",
+                            life: 3000,
+                        });
 
-    login() {
-        UserAuth.login(this.user)
-            .then((response: ResponseData) => {
-                if (response.data.success) {
-                    this.$toast.add({
-                        severity: "success",
-                        summary: "Login Successful!",
-                        detail: "Welcome to the dashboard",
-                        life: 3000,
-                    });
+                        // if (response.data.user.roles[0].name == "admin") {
+                        this.$router.push({ path: "/admin" });
+                        // } else if (response.data.user.roles[0].name == "manager") {
+                        //   this.$router.push({ path: "/manager-dashboard" });
+                        // } else {
+                        //   this.$router.push({ path: "/participant-dashboard" });
+                        // }
 
-                    // if (response.data.user.roles[0].name == "admin") {
-                    this.$router.push({ path: "/admin" });
-                    // } else if (response.data.user.roles[0].name == "manager") {
-                    //   this.$router.push({ path: "/manager-dashboard" });
-                    // } else {
-                    //   this.$router.push({ path: "/participant-dashboard" });
-                    // }
-
-                    this.$store.commit("auth/isLogin", response.data);
-                } else {
+                        this.$store.commit("auth/isLogin", response.data);
+                    } else {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "Incorrect Credentials!",
+                            detail: "Please try again",
+                            life: 3000,
+                        });
+                    }
+                })
+                .catch((e: Error) => {
                     this.$toast.add({
                         severity: "error",
-                        summary: "Incorrect Credentials!",
-                        detail: "Please try again",
+                        summary: e.message,
+                        detail: "Please reload the page",
                         life: 3000,
                     });
-                }
-            })
-            .catch((e: Error) => {
-                this.$toast.add({
-                    severity: "error",
-                    summary: e.message,
-                    detail: "Please reload the page",
-                    life: 3000,
                 });
-            });
-    }
-    setLayout() {
-        this.$store.commit("auth/setLayout", "Layout");
+        },
+        setLayout() {
+            this.$store.commit("auth/setLayout", "Layout");
 
-        this.$store.commit("auth/isLogin", true);
-        //   this.store.getters["auth/layoutName"]
-        // if (layout == 'Layout' ) {
-        //   this.$router.push({ path: "/admin" })
-        // } else {
-        //   this.$router.push({ path: "/login" })
-        // }
-    }
-
-    //   console.log(this.$store.getters['auth/layoutName'])
-    //   // this.$store.commit("auth/setLayout", 'Layout');
-    //   // console.log(this.$store.getters['auth/layoutName'])
-    // }
-}
+            this.$store.commit("auth/isLogin", true);
+            //   this.store.getters["auth/layoutName"]
+            // if (layout == 'Layout' ) {
+            //   this.$router.push({ path: "/admin" })
+            // } else {
+            //   this.$router.push({ path: "/login" })
+            // }
+        },
+    },
+};
 </script>

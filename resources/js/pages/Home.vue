@@ -4,7 +4,6 @@
     </div>
 </template>
 <script lang="ts">
-import { Vue, Options } from "vue-class-component";
 import { markRaw } from "vue";
 import MainLayout from "../layouts/MainLayout.vue";
 import TopMainImage from "../components/common/TopMainImage.vue";
