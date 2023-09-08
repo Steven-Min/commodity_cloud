@@ -14,7 +14,7 @@
             </div>
         </h2>
         <div class="form-container">
-            <el-form :model="formData" :ref="registerFormRef" :rules="rules">
+            <el-form :model="formData" ref="registerFormRef" :rules="rules">
                 <div class="text-center">
                     アカウントに関連付けられた貴方のメールアドレスに確認メールが届きます。
                     貴方の受信メールを必ず確認してください。
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item prop="password">
                     <div class="form-row">
                         <label>パスワード<span class="require">*</span></label>
                         <div class="flex-1">
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item prop="zipcode">
                     <div class="form-row">
                         <label>郵便番号<span class="require">*</span></label>
                         <div class="flex-1">
@@ -118,9 +118,11 @@
                                 class="mt-1"
                                 v-model="formData.gender"
                             >
-                                <el-radio :label="1">男性</el-radio>
-                                <el-radio :label="2">女性</el-radio>
-                                <el-radio :label="3">公開したくない</el-radio>
+                                <el-radio label="male">男性</el-radio>
+                                <el-radio label="female">女性</el-radio>
+                                <el-radio label="other"
+                                    >公開したくない</el-radio
+                                >
                             </el-radio-group>
                         </div>
                     </div>
@@ -188,6 +190,7 @@ import { markRaw, reactive, ref } from "vue";
 import ResponseData from "../../types/ResponseData";
 import MainLayout from "../../layouts/MainLayout.vue";
 import postal_code from "japan-postal-code";
+import { ElMessage } from "element-plus";
 import type { FormInstance, FormRules } from "element-plus";
 
 class Props {
@@ -203,9 +206,10 @@ interface RegisterForm {
     city: string;
     street: string;
     birthday: any;
-    gender: number;
+    gender: string;
     available_notification: boolean;
 }
+const registerFormRef = ref<FormInstance>();
 
 @Options({
     components: {},
@@ -215,7 +219,6 @@ export default class Register extends Vue.with(Props) {
     checked = false;
     agree_term = false;
     isFiltering = false;
-    registerFormRef = ref<FormInstance>();
     formData = reactive<RegisterForm>({
         email: "",
         password: "",
@@ -224,14 +227,77 @@ export default class Register extends Vue.with(Props) {
         city: "",
         street: "",
         birthday: null,
-        gender: 0,
+        gender: "",
         available_notification: false,
     });
+
+    validateEmail = (rule: any, value: any, callback: any) => {
+        // emailのルールに合致しない場合
+        if (!value.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)) {
+            callback(new Error("メールアドレスの形式が正しくありません"));
+        } else {
+            callback();
+        }
+    };
+
+    validatePassword = (rule: any, value: any, callback: any) => {
+        // 文字と数字の両方を含む必要があります。これらの記号だけが使用できます -._@
+        if (!value.match(/^(?=.*?[a-z])(?=.*?\d)[a-z\d-._@]+$/)) {
+            callback(
+                new Error(
+                    "パスワードは8文字以上で、文字と数字の両方を含む必要があります。これらの記号だけが使用できます -._@"
+                )
+            );
+        } else {
+            callback();
+        }
+    };
+
+    validateZipcode = (rule: any, value: any, callback: any) => {
+        // 文字と数字の両方を含む必要があります。これらの記号だけが使用できます -._@
+        if (!value.match(/^\d{3}-?\d{4}$/)) {
+            callback(new Error("郵便番号の形式が正しくありません"));
+        } else {
+            callback();
+        }
+    };
+
     rules = reactive<FormRules<RegisterForm>>({
         email: [
             {
                 required: true,
                 message: "メールアドレスを入力してください",
+                trigger: "blur",
+            },
+            {
+                validator: this.validateEmail,
+                trigger: "blur",
+            },
+        ],
+        password: [
+            {
+                required: true,
+                message: "パスワードを入力してください",
+                trigger: "blur",
+            },
+            {
+                min: 8,
+                message: "パスワードは8文字以上で入力してください",
+                trigger: "blur",
+            },
+            {
+                validator: this.validatePassword,
+                trigger: "blur",
+            },
+        ],
+        zipcode: [
+            {
+                required: true,
+                message: "郵便番号を入力してください",
+                trigger: "blur",
+            },
+            {
+                validator: this.validateZipcode,
                 trigger: "blur",
             },
         ],
@@ -242,18 +308,33 @@ export default class Register extends Vue.with(Props) {
     }
 
     register() {
-        UserAuth.create(this.formData)
-            .then((res: ResponseData) => {
-                if (res.status == 200) {
-                    this.$router.push({ path: "/login" });
-                }
-            })
-            .catch((err: ResponseData) => {
-                console.log(err);
-            });
+        const formEl = this.$refs.registerFormRef as FormInstance;
+        if (!formEl) return;
+        if (!this.agree_term) {
+            ElMessage("利用規約とプライバシーポリシーに同意してください");
+            return;
+        }
+        formEl.validate((valid) => {
+            if (valid) {
+                UserAuth.create(this.formData)
+                    .then((res: ResponseData) => {
+                        if (res.status == 200) {
+                            this.$router.push({ path: "/login" });
+                        }
+                    })
+                    .catch((err: ResponseData) => {
+                        console.log(err);
+                    });
+            } else {
+                return false;
+            }
+        });
     }
 
     changedZipCode() {
+        if (!this.formData.zipcode.match(/^\d{3}-?\d{4}$/)) {
+            return;
+        }
         const zipcode = this.formData.zipcode.replace("-", "");
         let self = this;
         this.isFiltering = true;

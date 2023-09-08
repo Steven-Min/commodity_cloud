@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MasterController;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,9 +15,9 @@ use App\Http\Controllers\MasterController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('login', [UserController::class, 'login'])->name('login');
 Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('checkauth', [UserController::class, 'checkAuth']);
+Auth::routes(['verify' => true]);
 
 Route::get('categories', [MasterController::class, 'categories']);
 

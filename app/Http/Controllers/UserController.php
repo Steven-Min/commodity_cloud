@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\UserRegisterRequest;
+use Illuminate\Auth\Events\Registered;
 
 use Illuminate\Http\Request;
 
@@ -93,5 +95,32 @@ class UserController extends Controller
             'message' => $message,
         ];
         return response()->json($response);
+    }
+
+    /**
+     * 新規登録
+     */
+    public function register(UserRegisterRequest $request) {
+        $user_data = [
+            'email' => $request->email,
+            'password' => bcrypt($request->password), // パスワードをハッシュ化
+        ];
+        $user = User::create($user_data);
+        $profile_data = [
+            'zipcode' => $request->zipcode,
+            'prefecture' => $request->prefecture,
+            'city' => $request->city,
+            'street' => $request->street,
+            'birthday' => $request->birthday,
+            'gender' => $request->gender,
+            'available_notification' => $request->available_notification
+        ];
+        $user->profile()->create($profile_data);
+        $user->sendEmailVerificationNotification();
+
+        return response()->json([
+            'user' => $user,
+            'success' => true,
+        ]);
     }
 }
