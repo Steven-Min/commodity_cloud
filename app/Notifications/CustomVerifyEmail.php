@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
 
-class CustomVerifyEmail extends Notification
+class CustomVerifyEmail extends VerifyEmail
 {
     use Queueable;
 
@@ -40,12 +41,13 @@ class CustomVerifyEmail extends Notification
      */
     public function toMail($notifiable)
     {
+        $verificationUrl = $this->verificationUrl($notifiable);
         return (new MailMessage)
                     ->subject('【商品雲】新規登録ーメールアドレスの認証')
                     ->greeting('こんにちは、' . $notifiable->email . '様!')
                     ->line('お客様のメールアドレスで【４世代】ショッピングモール【商品雲】に新規登録がされました。')
                     ->line('以下のリンクをクリックして、メールアドレスの認証を完了してください。')
-                    ->action('メールアドレスを認証', url('/'))
+                    ->action('メールアドレスを認証', $verificationUrl)
                     ->line('もしこのメールに心当たりがない場合、他の方がメールアドレスを誤って入力した可能性がございます。')
                     ->line('その場合、このメールを無視していただいて問題ございません。')
                     ->line('ご不明点、ご質問等がある場合は、お気軽に以下の連絡先までお問い合わせください。')

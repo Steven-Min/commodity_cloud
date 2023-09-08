@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const Login = () => import("../pages/auth/Login.vue");
 const Register = () => import("../pages/auth/Register.vue");
-
 // Pages
 const Home = () => import("../pages/Home.vue");
 const Reservations = () => import("../pages/Reservations.vue");
@@ -26,6 +25,10 @@ import store from "../store/store";
 
 const routes = [
     { path: "/", component: Home, name: "home" },
+
+    /**
+     * 認証周り
+     */
     {
         path: "/login",
         name: "login",
@@ -38,6 +41,7 @@ const routes = [
         component: Register,
         beforeEnter: [notAuthenticated],
     },
+
     { path: "/admin", component: Admin, beforeEnter: [isAuthenticated] },
     {
         path: "/reservations",

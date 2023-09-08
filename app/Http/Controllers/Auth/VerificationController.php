@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class VerificationController extends Controller
 {
@@ -22,27 +23,28 @@ class VerificationController extends Controller
     /**
      * Mark the user's email address as verified.
      */
-    public function verify(Request $request, User $user)
+    public function verify(Request $request, $id, $hash)
     {
-        if (! URL::hasValidSignature($request)) {
-            return response()->json([
-                'status' => trans('verification.invalid'),
-            ], 400);
-        }
+        // IDによってユーザーを取得
+        $user = User::findOrFail($id);
 
+        // ユーザーのメールアドレスが既に確認されている場合はエラーを返す
         if ($user->hasVerifiedEmail()) {
-            return response()->json([
-                'status' => trans('verification.already_verified'),
-            ], 400);
+            return response()->json(['message' => 'Email already verified.']);
         }
 
-        $user->markEmailAsVerified();
+        // ユーザーのメールアドレスとハッシュが一致する場合、メールアドレスを確認する
+        if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+            throw new AuthorizationException;
+        }
 
-        event(new Verified($user));
+        // ユーザーのメールアドレスを確認
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+        }
 
-        return response()->json([
-            'status' => trans('verification.verified'),
-        ]);
+        // ここでフロントエンドへのリダイレクトや成功レスポンスを返すことができます
+        return redirect('/login');
     }
 
     /**
