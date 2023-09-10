@@ -55,7 +55,19 @@ class LoginController extends Controller
             $user = User::find($id);
             $success = true;
             $layout =  'layout';
-            $message = 'User login successfully';
+            $role = $user->role;
+            // 管理者の場合
+            if ($role === 'admin') {
+                $message = '管理者としてログインしました。';
+            }
+            // 購入者の場合
+            if ($role === 'user') {
+                $message = '購入者としてログインしました。';
+            }
+            // 販売者の場合
+            if ($role === 'seller') {
+                $message = '販売者としてログインしました。';
+            }
         } else {
             $user = '';
             $success = false;
@@ -69,6 +81,7 @@ class LoginController extends Controller
             'success' => $success,
             'layout' =>  $layout,
             'message' => $message,
+            'role' => $role,
         ];
         return response()->json($response);
     }

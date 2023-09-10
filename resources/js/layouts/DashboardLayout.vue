@@ -33,17 +33,120 @@ import AppTopbar from "../components/AppTopbar.vue";
 import AppFooter from "../components/AppFooter.vue";
 import { useRouter } from "vue-router";
 
-@Options({
+export default {
     components: {
         AppTopbar,
         AppFooter,
     },
-})
-export default class DashboardLayout extends Vue {
-    showSidebar: Boolean = true;
-    visibleLeft: Boolean = false;
-
-    // store = useStore()
+    data() {
+        return {
+            showSidebar: true,
+            visibleLeft: false,
+            sidebarItems: [
+                {
+                    label: "General",
+                    items: [
+                        {
+                            label: "ダッシュボード",
+                            to: "/admin",
+                        },
+                        {
+                            label: "Reservations",
+                            to: "/reservations",
+                        },
+                        {
+                            label: "Types and Rates",
+                            to: "/car-type",
+                        },
+                        {
+                            label: "Extras",
+                        },
+                        {
+                            label: "Office Locations",
+                        },
+                        {
+                            label: "Users",
+                        },
+                    ],
+                },
+                {
+                    label: "商品管理",
+                    items: [
+                        {
+                            label: "商品一覧",
+                            to: "/admin/products",
+                        },
+                        {
+                            label: "商品登録",
+                            to: "/admin/products/create",
+                        },
+                    ],
+                },
+                {
+                    label: "Car Inventory",
+                    items: [
+                        {
+                            label: "Cars",
+                            to: "/car-inventory",
+                        },
+                        {
+                            label: "Availability",
+                            to: "/availibility",
+                        },
+                    ],
+                },
+                {
+                    label: "Options",
+                    items: [
+                        {
+                            label: "Rental Settings",
+                        },
+                        {
+                            label: "Payments",
+                        },
+                        {
+                            label: "Checkout Form",
+                        },
+                        {
+                            label: "Notificatins",
+                        },
+                        {
+                            label: "Terms",
+                        },
+                    ],
+                },
+                {
+                    label: "System Options",
+                    items: [
+                        {
+                            label: "General",
+                        },
+                        {
+                            label: "API Keys",
+                        },
+                        {
+                            label: "Email Settings",
+                        },
+                        {
+                            label: "SMS Settings",
+                        },
+                        {
+                            label: "Languages",
+                        },
+                        {
+                            label: "Login & Protection",
+                        },
+                        {
+                            label: "Countries",
+                        },
+                        {
+                            label: "Corn Jobs",
+                        },
+                    ],
+                },
+            ],
+        };
+    },
     created() {
         window.addEventListener("resize", this.onResize);
         if (window.innerWidth < 960) {
@@ -51,120 +154,22 @@ export default class DashboardLayout extends Vue {
         } else {
             this.showSidebar = true;
         }
-        // this.$router.push({ path: "/admin" })
-    }
-
-    mounted() {
-        // console.log(useRouter().currentRoute.value)
-        // if(this.$route.path == '/') {
-        //   this.$router.push({ path: "/admin" })
-        // }
-    }
-
-    toggleSidebar() {
-        // this.showSidebar = (this.showSidebar) ? false : true
-        this.visibleLeft = this.visibleLeft ? false : true;
-    }
-
-    onResize() {
-        if (window.innerWidth < 960) {
-            this.showSidebar = false;
-        } else {
-            this.showSidebar = true;
-        }
-    }
-
-    sidebarItems = [
-        {
-            label: "General",
-            items: [
-                {
-                    label: "Dashboard",
-                    to: "/admin",
-                },
-                {
-                    label: "Reservations",
-                    to: "/reservations",
-                },
-                {
-                    label: "Types and Rates",
-                    to: "/car-type",
-                },
-                {
-                    label: "Extras",
-                },
-                {
-                    label: "Office Locations",
-                },
-                {
-                    label: "Users",
-                },
-            ],
+    },
+    methods: {
+        toggleSidebar() {
+            // this.showSidebar = (this.showSidebar) ? false : true
+            this.visibleLeft = this.visibleLeft ? false : true;
         },
-        {
-            label: "Car Inventory",
-            items: [
-                {
-                    label: "Cars",
-                    to: "/car-inventory",
-                },
-                {
-                    label: "Availability",
-                    to: "/availibility",
-                },
-            ],
+
+        onResize() {
+            if (window.innerWidth < 960) {
+                this.showSidebar = false;
+            } else {
+                this.showSidebar = true;
+            }
         },
-        {
-            label: "Options",
-            items: [
-                {
-                    label: "Rental Settings",
-                },
-                {
-                    label: "Payments",
-                },
-                {
-                    label: "Checkout Form",
-                },
-                {
-                    label: "Notificatins",
-                },
-                {
-                    label: "Terms",
-                },
-            ],
-        },
-        {
-            label: "System Options",
-            items: [
-                {
-                    label: "General",
-                },
-                {
-                    label: "API Keys",
-                },
-                {
-                    label: "Email Settings",
-                },
-                {
-                    label: "SMS Settings",
-                },
-                {
-                    label: "Languages",
-                },
-                {
-                    label: "Login & Protection",
-                },
-                {
-                    label: "Countries",
-                },
-                {
-                    label: "Corn Jobs",
-                },
-            ],
-        },
-    ];
-}
+    },
+};
 </script>
 <style scoped>
 .progress-bar {

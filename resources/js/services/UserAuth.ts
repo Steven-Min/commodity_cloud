@@ -2,7 +2,7 @@ import axios from "axios";
 // import ProgressBar from "./ProgressBar";
 // import store from "../store/store";
 class UserAuth {
-    baseUrl = "api";
+    baseUrl = "/api";
     async checkAuth() {
         // ProgressBar.progressBar()
         await axios.get("/sanctum/csrf-cookie");

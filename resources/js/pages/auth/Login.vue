@@ -80,18 +80,20 @@ export default {
                     if (response.data.success) {
                         this.$toast.add({
                             severity: "success",
-                            summary: "Login Successful!",
-                            detail: "Welcome to the dashboard",
+                            summary: "ログイン成功！",
+                            detail: response.data.message,
                             life: 3000,
                         });
 
-                        // if (response.data.user.roles[0].name == "admin") {
-                        this.$router.push({ path: "/admin" });
-                        // } else if (response.data.user.roles[0].name == "manager") {
-                        //   this.$router.push({ path: "/manager-dashboard" });
-                        // } else {
-                        //   this.$router.push({ path: "/participant-dashboard" });
-                        // }
+                        if (response.data.role == "admin") {
+                            this.$router.push({ path: "/admin" });
+                        } else if (response.data.role == "seller") {
+                            this.$router.push({ path: "/seller-dashboard" });
+                        } else {
+                            this.$router.push({
+                                path: "/dashboard",
+                            });
+                        }
 
                         this.$store.commit("auth/isLogin", response.data);
                     } else {

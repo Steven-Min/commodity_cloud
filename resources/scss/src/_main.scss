@@ -34,3 +34,13 @@ a {
     text-decoration: none;
     color: var(--primary-color);
 }
+
+.admin-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+    color: var(--primary-color);
+    border-left: 3px solid var(--primary-color);
+    padding-left: 20px;
+}
