@@ -96,10 +96,11 @@ export default {
                     ],
                 },
                 {
-                    label: "Options",
+                    label: "設定",
                     items: [
                         {
-                            label: "Rental Settings",
+                            label: "バリエーション管理",
+                            to: "/admin/settings/variation",
                         },
                         {
                             label: "Payments",

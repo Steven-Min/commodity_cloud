@@ -13,6 +13,7 @@ const Availibility = () => import("../pages/Availibility.vue");
 const Admin = () => import("../pages/dashboards/Admin.vue");
 const ProductList = () => import("../pages/dashboards/products/index.vue");
 const ProductCreate = () => import("../pages/dashboards/products/create.vue");
+const Variation = () => import("../pages/dashboards/settings/variation.vue");
 // const participant = () => import("../dashboard/participant.vue");
 // const manager = () => import("../dashboard/manager.vue");
 
@@ -53,6 +54,11 @@ const routes = [
     {
         path: "/admin/products/create",
         component: ProductCreate,
+        beforeEnter: [isAuthenticated],
+    },
+    {
+        path: "/admin/settings/variation",
+        component: Variation,
         beforeEnter: [isAuthenticated],
     },
     {
